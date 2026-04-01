@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "patientName": "Тест Пациент",
+    "phone": "+359881234567",
+    "email": "test@example.com",
+    "specialty": "Кардиология",
+    "doctor": "Д-р Елена Тодорова",
+    "date": "2026-04-02",
+    "time": "10:30",
+    "notes": "Контролен преглед",
+    "status": "pending",
+    "createdAt": "31.03.2026 08:58"
+  }
+]

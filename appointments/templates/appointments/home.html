@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Д-р Георги Цветанов | Запазване на час</title>
+  <link rel="stylesheet" href="{% static 'appointments/styles.css' %}">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <a class="brand" href="{% url 'home' %}">
+          <span class="brand-mark">+</span>
+          <span>Д-р Георги Цветанов</span>
+        </a>
+        <div class="topbar-links">
+          <a href="#services">Услуги</a>
+          <a href="#booking">Запиши час</a>
+          <a href="#echo-booking">Ехограф</a>
+          <a href="#contacts">Контакти</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <section class="hero-copy">
+          <p class="eyebrow">Онлайн записване</p>
+          <h1>Запиши час при <span class="hero-doctor">Д-р Георги Цветанов</span> за преглед или ехограф.</h1>
+          <div class="section-switcher" aria-label="Избор на тип записване">
+            <a class="switch-card switch-card-primary" href="#booking">
+              <span class="switch-kicker">Преглед</span>
+              <strong><span class="switch-highlight">Запис за преглед</span></strong>
+              <span>Личен лекар</span>
+            </a>
+            <a class="switch-card switch-card-secondary" href="#echo-booking">
+              <span class="switch-kicker">Ехограф</span>
+              <strong><span class="switch-highlight">Запис за ехограф</span></strong>
+              <span>Коремни органи</span>
+            </a>
+          </div>
+          <ul class="hero-stats" aria-label="Предимства">
+            <li><strong>24/7</strong><span>онлайн записване</span></li>
+            <li><strong>2 секции</strong><span>преглед и ехограф</span></li>
+            <li><strong>1 лекар</strong><span>Д-р Георги Цветанов</span></li>
+          </ul>
+        </section>
+
+        <aside class="hero-panel">
+          <div class="availability-card">
+            <p class="card-kicker">Контакт</p>
+            <h2>Д-р Георги Цветанов</h2>
+            <p>гр. Монтана, Медицински център "Деница"</p>
+            <div class="contact-summary-card">
+              <strong>+359 885320234</strong>
+              <span>гр. Монтана, Медицински център "Деница", ет. 3, каб. 8, пл. Алеко Константинов 22</span>
+            </div>
+          </div>
+
+          <a class="button button-secondary hero-panel-lookup-button" href="#lookup-modal">Провери моята заявка</a>
+
+          <div class="trust-card">
+            <p>Телефон</p>
+            <strong>+359 885320234</strong>
+            <span>Понеделник - Петък</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="services-section" id="services">
+        <div class="section-heading">
+          <p class="eyebrow">Услуги</p>
+          <h2>Избери услуга</h2>
+        </div>
+        <div class="services-grid">
+          <a class="service-card service-link-card" href="#booking">
+            <h3>Обща медицина (Личен лекар)</h3>
+            <p>Преглед, профилактика, рецепти, удостоверения.</p>
+            <div class="service-card-footer">
+              <strong class="service-link-hint">Натисни за запис <span aria-hidden="true">→</span></strong>
+            </div>
+          </a>
+          <a class="service-card accent-card service-link-card" href="#echo-booking">
+            <h3>Ехографска диагностика</h3>
+            <p>Ехография на коремни органи.</p>
+            <div class="service-card-footer">
+              <strong class="service-link-hint">Натисни за запис <span aria-hidden="true">→</span></strong>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="services-section" id="prices">
+        <div class="section-heading">
+          <p class="eyebrow">Цени</p>
+          <h2>Прегледи и такси</h2>
+        </div>
+        <div class="prices-grid">
+          <article class="price-card">
+            <p class="card-kicker">Платен преглед</p>
+            <strong>20 €</strong>
+            <span>Таксата е за платен преглед при Д-р Георги Цветанов.</span>
+          </article>
+          <article class="price-card">
+            <p class="card-kicker">Преглед на неосигурен</p>
+            <strong>15 €</strong>
+            <span>Таксата е за преглед на неосигурен пациент.</span>
+          </article>
+          <article class="price-card">
+            <p class="card-kicker">Ехография</p>
+            <strong>30 €</strong>
+            <span>Таксата е за ехография при Д-р Георги Цветанов.</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="booking-section" id="booking">
+        <div class="section-heading">
+          <p class="eyebrow">Преглед</p>
+          <h2>Запази час за преглед</h2>
+        </div>
+        {% if general_form.errors %}
+          <div class="inline-error" aria-live="polite">
+            <strong>Заявката не беше изпратена.</strong>
+            <span>Провери отбелязаните полета и избери свободен час.</span>
+          </div>
+        {% endif %}
+        <div class="booking-layout">
+          <form class="booking-form" method="post" data-schedule-form data-occupied="{{ general_occupied_json|escapejs }}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="general">
+            {% for field in general_form %}
+              {% if field.name == 'date' %}
+                <div class="schedule-picker" data-schedule-picker data-mode="general">
+                  <div class="schedule-picker-header">
+                    <span class="schedule-picker-title">{{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}</span>
+                    <strong class="schedule-picked-date">Избери дата</strong>
+                  </div>
+                  <div class="schedule-days">
+                    {% for value, label in field.field.choices %}
+                      <label class="schedule-choice-card">
+                        <input type="radio" name="{{ field.html_name }}" value="{{ value }}" data-date-value="{{ value }}" {% if field.value == value %}checked{% endif %} required>
+                        <span class="schedule-choice-inner">
+                          <strong>{{ label|slice:":-11" }}</strong>
+                          <span>{{ label|slice:"-10:" }}</span>
+                        </span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'time' %}
+                <div class="schedule-picker schedule-time-picker" data-time-picker data-mode="general">
+                  <div class="schedule-picker-header">
+                    <span class="schedule-picker-title">{{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}</span>
+                    <strong class="schedule-picked-time">Избери час</strong>
+                  </div>
+                  <div class="schedule-earliest">Най-ранен свободен час</div>
+                  <div class="schedule-time-groups">
+                    <div class="schedule-time-group">
+                      <p class="schedule-group-title">Сутрешни часове</p>
+                      <div class="schedule-times">
+                        {% for value, label in general_time_groups.morning %}
+                          <label class="schedule-choice-card{% if value in general_initial_occupied_times %} is-disabled{% endif %}">
+                            <input type="radio" name="{{ field.html_name }}" value="{{ value }}" data-time-value="{{ value }}" {% if field.value == value %}checked{% endif %} {% if value in general_initial_occupied_times %}disabled{% endif %} required>
+                            <span class="schedule-choice-inner">
+                              <strong>{{ label }}</strong>
+                            </span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="schedule-time-group">
+                      <p class="schedule-group-title">Следобедни часове</p>
+                      <div class="schedule-times">
+                        {% for value, label in general_time_groups.afternoon %}
+                          <label class="schedule-choice-card{% if value in general_initial_occupied_times %} is-disabled{% endif %}">
+                            <input type="radio" name="{{ field.html_name }}" value="{{ value }}" data-time-value="{{ value }}" {% if field.value == value %}checked{% endif %} {% if value in general_initial_occupied_times %}disabled{% endif %} required>
+                            <span class="schedule-choice-inner">
+                              <strong>{{ label }}</strong>
+                            </span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </div>
+              {% else %}
+                <label>
+                  {{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}
+                  {{ field }}
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </label>
+              {% endif %}
+            {% endfor %}
+            <button class="button button-primary submit-button" type="submit" data-submit-button data-default-text="Изпрати заявката" data-loading-text="Изпращане...">Изпрати заявката</button>
+          </form>
+
+          <aside class="schedule-card">
+            <div class="contact-card" id="contacts">
+              <h4>Контакт с регистратура</h4>
+              <p>Понеделник - Петък</p>
+              <strong>+359 885320234</strong>
+              <span>гр. Монтана, Медицински център "Деница", ет. 3, кабинет 8, пл. Алеко Константинов 22</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="booking-section" id="echo-booking">
+        <div class="section-heading">
+          <p class="eyebrow">Ехографска диагностика</p>
+          <h2>Запази час за ехограф</h2>
+        </div>
+        {% if echo_form.errors %}
+          <div class="inline-error" aria-live="polite">
+            <strong>Заявката не беше изпратена.</strong>
+            <span>Провери отбелязаните полета и избери свободен час.</span>
+          </div>
+        {% endif %}
+        <div class="booking-layout">
+          <form class="booking-form" method="post" data-schedule-form data-occupied="{{ echo_occupied_json|escapejs }}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="echo">
+            {% for field in echo_form %}
+              {% if field.name == 'date' %}
+                <div class="schedule-picker" data-schedule-picker data-mode="echo">
+                  <div class="schedule-picker-header">
+                    <span class="schedule-picker-title">{{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}</span>
+                    <strong class="schedule-picked-date">Избери дата</strong>
+                  </div>
+                  <div class="schedule-days">
+                    {% for value, label in field.field.choices %}
+                      <label class="schedule-choice-card">
+                        <input type="radio" name="{{ field.html_name }}" value="{{ value }}" data-date-value="{{ value }}" {% if field.value == value %}checked{% endif %} required>
+                        <span class="schedule-choice-inner">
+                          <strong>{{ label|slice:":-11" }}</strong>
+                          <span>{{ label|slice:"-10:" }}</span>
+                        </span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </div>
+              {% elif field.name == 'time' %}
+                <div class="schedule-picker schedule-time-picker" data-time-picker data-mode="echo">
+                  <div class="schedule-picker-header">
+                    <span class="schedule-picker-title">{{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}</span>
+                    <strong class="schedule-picked-time">Избери час</strong>
+                  </div>
+                  <div class="schedule-earliest">Най-ранен свободен час</div>
+                  <div class="schedule-time-groups">
+                    <div class="schedule-time-group">
+                      <p class="schedule-group-title">Следобедни часове</p>
+                      <div class="schedule-times">
+                        {% for value, label in echo_time_groups.afternoon %}
+                          <label class="schedule-choice-card{% if value in echo_initial_occupied_times %} is-disabled{% endif %}">
+                            <input type="radio" name="{{ field.html_name }}" value="{{ value }}" data-time-value="{{ value }}" {% if field.value == value %}checked{% endif %} {% if value in echo_initial_occupied_times %}disabled{% endif %} required>
+                            <span class="schedule-choice-inner">
+                              <strong>{{ label }}</strong>
+                            </span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </div>
+              {% else %}
+                <label>
+                  {{ field.label }}{% if field.field.required %}<span class="required-mark">*</span>{% endif %}
+                  {{ field }}
+                  {% if field.errors %}
+                    <span class="form-feedback">{{ field.errors|striptags }}</span>
+                  {% endif %}
+                </label>
+              {% endif %}
+            {% endfor %}
+            <button class="button button-primary submit-button" type="submit" data-submit-button data-default-text="Изпрати заявка за ехограф" data-loading-text="Изпращане...">Изпрати заявка за ехограф</button>
+          </form>
+
+          <aside class="schedule-card">
+            <div class="schedule-header">
+              <p class="card-kicker">Ехограф</p>
+              <h3>Ехография на коремни органи</h3>
+            </div>
+            <div class="contact-card">
+              <h4>Лекар</h4>
+              <p>Ехографски преглед</p>
+              <strong>Д-р Георги Цветанов</strong>
+              <span>гр. Монтана, МЦ "Деница"</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="app-modal-shell{% if lookup_phone %} is-open{% endif %}" id="lookup-modal">
+    <a class="app-modal-backdrop" href="{% url 'home' %}" aria-label="Затвори"></a>
+    <div class="app-modal-content" role="dialog" aria-modal="true" aria-labelledby="lookup-modal-title">
+      <div class="app-modal-header">
+        <div>
+          <p class="eyebrow">Проверка на заявка</p>
+          <h3 id="lookup-modal-title">Виж дали е приета и в колко е часът</h3>
+        </div>
+        <a class="modal-close" href="{% url 'home' %}">Затвори</a>
+      </div>
+
+      <form class="booking-form patient-lookup-form" method="get">
+        <label for="lookup-phone-modal">
+          Телефон за справка
+          <input id="lookup-phone-modal" type="tel" name="lookup_phone" value="{{ lookup_phone }}" placeholder="+359 88 123 4567">
+        </label>
+        <button class="button button-primary" type="submit">Провери моите заявки</button>
+        <p class="form-feedback">Въведи телефона, с който е подадена заявката.</p>
+      </form>
+
+      <div class="schedule-list modal-results">
+        {% if lookup_phone %}
+          {% if phone_lookup_results %}
+            {% for item in phone_lookup_results %}
+              <article class="appointment-item lookup-item">
+                <div class="appointment-meta">
+                  <strong>{{ item.specialty }}</strong>
+                  <span>{{ item.visit_reason }}</span>
+                  <span>{{ item.date|date:"d.m.Y" }} - {{ item.time|time:"H:i" }}</span>
+                  <span>Лекар: {{ item.doctor }}</span>
+                </div>
+                <div class="lookup-side">
+                  <span class="badge {{ item.status }}">{{ item.get_status_display }}</span>
+                  <span class="lookup-id">Заявка №{{ item.id }}</span>
+                </div>
+              </article>
+            {% endfor %}
+          {% else %}
+            <div class="empty-state">Не намерихме заявки за този телефон.</div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">Потърси по телефон, за да видиш дали заявката е чакаща, потвърдена или отказана.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="app-modal-shell{% if submitted_form_type or messages %} is-open{% endif %}" id="success-modal">
+    <a class="app-modal-backdrop" href="{% url 'home' %}" aria-label="Затвори"></a>
+    <div class="app-modal-content" role="dialog" aria-modal="true" aria-labelledby="success-modal-title">
+      <div class="app-modal-header">
+        <div>
+          <p class="eyebrow">Заявката е изпратена</p>
+          <h3 id="success-modal-title">Потвърждението е записано в системата</h3>
+        </div>
+        <a class="modal-close" href="{% url 'home' %}">Затвори</a>
+      </div>
+      <div class="modal-results">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="flash-message flash-{{ message.tags|default:'info' }}">
+              <strong>Успешно подадена заявка</strong>
+              <span>{{ message }}</span>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="flash-message">
+            <strong>Успешно подадена заявка</strong>
+            <span>Ще се свържем с вас при нужда от уточнение.</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'appointments/script.js' %}"></script>
+</body>
+</html>

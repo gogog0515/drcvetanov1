@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediSlot Admin | Управление на часове</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="admin">
+  <div class="page-shell">
+    <section class="admin-shell">
+      <nav class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">+</span>
+          <span>MediSlot Admin</span>
+        </a>
+        <div class="topbar-links">
+          <a href="index.html">Пациентски сайт</a>
+          <a href="#appointments">Заявки</a>
+        </div>
+      </nav>
+
+      <div class="section-heading">
+        <p class="eyebrow">Административен панел</p>
+        <h2>Потвърждавай, отказвай и следи пациентските заявки</h2>
+      </div>
+
+      <div class="admin-grid">
+        <div class="admin-main">
+          <div class="admin-toolbar">
+            <div class="filter-group">
+              <select class="admin-filter" id="status-filter" aria-label="Филтър по статус">
+                <option value="all">Всички статуси</option>
+                <option value="pending">Чакащи потвърждение</option>
+                <option value="confirmed">Потвърдени</option>
+                <option value="cancelled">Отказани</option>
+              </select>
+              <select class="admin-filter" id="specialty-filter" aria-label="Филтър по специалност">
+                <option value="all">Всички специалности</option>
+                <option>Обща медицина</option>
+                <option>Кардиология</option>
+                <option>Педиатрия</option>
+                <option>Дерматология</option>
+                <option>Ортопедия</option>
+                <option>Неврология</option>
+              </select>
+            </div>
+            <div class="admin-actions">
+              <button class="button button-ghost" id="reload-button" type="button">Обнови данните</button>
+            </div>
+          </div>
+
+          <p class="form-feedback" id="admin-feedback" role="status" aria-live="polite"></p>
+
+          <div class="admin-table-wrap" id="appointments">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Пациент</th>
+                  <th>Специалност</th>
+                  <th>Дата и час</th>
+                  <th>Бележка</th>
+                  <th>Статус</th>
+                  <th>Създадена</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="admin-side">
+          <div class="dashboard-metrics">
+            <div class="metric-card"><span>Общо</span><strong id="metric-total">0</strong></div>
+            <div class="metric-card"><span>Чакащи</span><strong id="metric-pending">0</strong></div>
+            <div class="metric-card"><span>Потвърдени</span><strong id="metric-confirmed">0</strong></div>
+          </div>
+
+          <div class="admin-info-card">
+            <p>Работен поток</p>
+            <h3>Какво вижда пациентът</h3>
+            <span class="table-muted">
+              Когато заявката е в статус „Чакаща“, тя се показва в секцията „Моите заявки“.
+              След „Потвърди“ пациентът я вижда в „Моите часове“ с точната дата и час.
+            </span>
+          </div>
+
+          <div class="admin-info-card">
+            <p>Действия</p>
+            <h3>Как да обработиш заявката</h3>
+            <span class="table-muted">
+              Използвай „Потвърди“ за приет час и „Откажи“ ако интервалът не е наличен.
+              Статусът се обновява веднага и пациентският екран отразява промяната.
+            </span>
+          </div>
+
+          <div class="contact-card">
+            <h4>Сървър</h4>
+            <p>Локален Python backend</p>
+            <strong>python server.py</strong>
+            <span>Данните се пазят във файла data/appointments.json.</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

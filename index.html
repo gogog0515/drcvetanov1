@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediSlot | Записване на час</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="patient">
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">+</span>
+          <span>MediSlot</span>
+        </a>
+        <div class="topbar-links">
+          <a href="#services">Услуги</a>
+          <a href="#booking">Запиши час</a>
+          <a href="#contacts">Контакти</a>
+          <a href="admin.html">Админ</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid" id="top">
+        <section class="hero-copy">
+          <p class="eyebrow">Онлайн регистратура за пациенти</p>
+          <h1>Подай заявка за преглед и проследи статуса й без обаждане.</h1>
+          <p class="hero-text">
+            Избери специалист, лекар, дата и час. След изпращане заявката ти влиза в
+            системата, а пациентският панел ясно показва дали още чака потвърждение или
+            вече имаш приет час.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#booking">Нова заявка</a>
+            <a class="button button-secondary" href="admin.html">Към администрация</a>
+          </div>
+
+          <ul class="hero-stats" aria-label="Предимства">
+            <li>
+              <strong>24/7</strong>
+              <span>онлайн записване</span>
+            </li>
+            <li>
+              <strong>Статус</strong>
+              <span>ясно разграничени заявки и потвърдени часове</span>
+            </li>
+            <li>
+              <strong>Админ</strong>
+              <span>потвърждение и отказ от регистратурата</span>
+            </li>
+          </ul>
+        </section>
+
+        <aside class="hero-panel">
+          <div class="availability-card">
+            <p class="card-kicker">Статус на системата</p>
+            <h2>Свободни часове</h2>
+            <p>Наличните интервали се обновяват след всяка подадена заявка и всяка промяна от администратор.</p>
+            <div class="mini-calendar">
+              <div><span>API</span><strong>ON</strong></div>
+              <div class="active"><span>SYNC</span><strong>LIVE</strong></div>
+              <div><span>UI</span><strong>FAST</strong></div>
+              <div><span>DATA</span><strong>SAFE</strong></div>
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <p>Пациентски портал</p>
+            <strong>Първо заявка, после потвърден час</strong>
+            <span>Пациентът вижда веднага, че заявката е изпратена, а след одобрение ясно разбира точната дата и час на посещението си.</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="services-section" id="services">
+        <div class="section-heading">
+          <p class="eyebrow">Медицински направления</p>
+          <h2>Подходящи прегледи за най-честите нужди</h2>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Обща медицина</h3>
+            <p>Първичен преглед, профилактика и насочване към специалист при нужда.</p>
+            <span>30 мин</span>
+          </article>
+          <article class="service-card">
+            <h3>Кардиология</h3>
+            <p>Консултации при сърдечни оплаквания, контролни прегледи и проследяване.</p>
+            <span>40 мин</span>
+          </article>
+          <article class="service-card">
+            <h3>Педиатрия</h3>
+            <p>Прегледи за деца с ясно разграничен график и бързо обслужване.</p>
+            <span>25 мин</span>
+          </article>
+          <article class="service-card accent-card">
+            <h3>Онлайн консултация</h3>
+            <p>Подходяща за резултати, контролен разговор и второ мнение без посещение на място.</p>
+            <span>Видео среща</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="booking-section" id="booking">
+        <div class="section-heading">
+          <p class="eyebrow">Форма за записване</p>
+          <h2>Изпрати заявка за медицински час</h2>
+        </div>
+
+        <div class="booking-layout">
+          <form class="booking-form" id="appointment-form">
+            <label>Име и фамилия<input type="text" name="patientName" placeholder="Например Мария Иванова" required></label>
+            <label>Телефон<input type="tel" name="phone" placeholder="+359 88 123 4567" required></label>
+            <label>Имейл<input type="email" name="email" placeholder="name@example.com" required></label>
+            <label>
+              Специалност
+              <select name="specialty" required>
+                <option value="">Избери специалност</option>
+                <option>Обща медицина</option>
+                <option>Кардиология</option>
+                <option>Педиатрия</option>
+                <option>Дерматология</option>
+                <option>Ортопедия</option>
+                <option>Неврология</option>
+              </select>
+            </label>
+            <label>
+              Предпочитан лекар
+              <select name="doctor" required>
+                <option value="">Избери лекар</option>
+                <option>Д-р Елена Тодорова</option>
+                <option>Д-р Николай Петров</option>
+                <option>Д-р Анна Георгиева</option>
+                <option>Д-р Виктор Иванов</option>
+              </select>
+            </label>
+            <div class="double-field">
+              <label>Дата<input type="date" name="date" required></label>
+              <label>
+                Час
+                <select name="time" required>
+                  <option value="">Избери час</option>
+                  <option>09:00</option>
+                  <option>10:30</option>
+                  <option>13:00</option>
+                  <option>16:30</option>
+                  <option>18:00</option>
+                </select>
+              </label>
+            </div>
+            <label>Причина за посещение<textarea name="notes" rows="4" placeholder="Кратко описание на симптомите или целта на прегледа"></textarea></label>
+            <button class="button button-primary submit-button" id="submit-button" type="submit">Изпрати заявката</button>
+            <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="schedule-card">
+            <div class="schedule-header">
+              <p class="card-kicker">Моето проследяване</p>
+              <h3>Виж дали заявката е приета и кога е часът ти</h3>
+            </div>
+            <div class="dashboard-metrics" id="patient-metrics">
+              <div class="metric-card"><span>Общо заявки</span><strong id="metric-total">0</strong></div>
+              <div class="metric-card"><span>Чакащи</span><strong id="metric-pending">0</strong></div>
+              <div class="metric-card"><span>Потвърдени</span><strong id="metric-confirmed">0</strong></div>
+            </div>
+
+            <div class="patient-tracking">
+              <section class="tracking-panel">
+                <div class="tracking-heading">
+                  <p class="card-kicker">Моите заявки</p>
+                  <h4>Подадени и чакащи потвърждение</h4>
+                </div>
+                <div class="schedule-list" id="pending-appointments"></div>
+              </section>
+
+              <section class="tracking-panel">
+                <div class="tracking-heading">
+                  <p class="card-kicker">Моите часове</p>
+                  <h4>Приети и потвърдени посещения</h4>
+                </div>
+                <div class="schedule-list" id="confirmed-appointments"></div>
+              </section>
+            </div>
+
+            <div class="contact-card" id="contacts">
+              <h4>Контакт с регистратура</h4>
+              <p>Понеделник - Петък</p>
+              <strong>+359 2 456 78 90</strong>
+              <span>бул. Здраве 12, София</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="success-modal" id="success-modal">
+    <div class="success-modal-content">
+      <p class="eyebrow">Заявката е изпратена</p>
+      <h2>Очаква потвърждение от регистратурата</h2>
+      <p id="confirmation-details"></p>
+      <button class="button button-primary" id="close-modal" type="button">Затвори</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
