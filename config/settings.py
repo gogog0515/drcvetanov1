@@ -37,6 +37,10 @@ if render_hostname and render_hostname not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(render_hostname)
 
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS", [])
+if render_hostname:
+    render_origin = f"https://{render_hostname}"
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 
 INSTALLED_APPS = [
@@ -118,6 +122,9 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
