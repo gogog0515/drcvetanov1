@@ -114,20 +114,10 @@ class BaseAppointmentForm(forms.ModelForm):
         value = self.cleaned_data["time"]
         return datetime.strptime(value, "%H:%M").time()
 
-    def _get_doctor_value(self):
-        return "Д-р Георги Цветанов"
-
     def _find_first_available_slot(self, date_choices, time_choices):
-        doctor = self._get_doctor_value()
-        if not doctor:
-            return date_choices[0][0], time_choices[0][0]
-
         for date_value, _ in date_choices:
             occupied_times = set(
-                Appointment.objects.filter(
-                    doctor=doctor,
-                    date=date_value,
-                )
+                Appointment.objects.filter(date=date_value)
                 .exclude(status="cancelled")
                 .values_list("time", flat=True)
             )

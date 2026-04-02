@@ -26,10 +26,10 @@ def split_time_choices(time_choices):
     return {"morning": morning, "afternoon": afternoon}
 
 
-def build_occupied_map(doctor: str) -> dict[str, list[str]]:
+def build_occupied_map() -> dict[str, list[str]]:
     occupied = {}
     appointments = (
-        Appointment.objects.filter(doctor=doctor)
+        Appointment.objects.all()
         .exclude(status="cancelled")
         .values_list("date", "time")
     )
@@ -71,9 +71,8 @@ def home(request: HttpRequest) -> HttpResponse:
             if normalize_phone(appointment.phone) == normalized_lookup_phone
         ][:10]
 
-    doctor_name = "Д-р Георги Цветанов"
-    general_occupied_map = build_occupied_map(doctor_name)
-    echo_occupied_map = build_occupied_map(doctor_name)
+    general_occupied_map = build_occupied_map()
+    echo_occupied_map = general_occupied_map
     general_initial_date = general_form.initial.get("date")
     echo_initial_date = echo_form.initial.get("date")
     context = {
